@@ -13,32 +13,20 @@ class Stock
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $quantity = null;
-
-    #[ORM\ManyToOne(inversedBy: 'stocks')]
-    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'stocks')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
-    #[ORM\ManyToOne(inversedBy: 'size')]
-    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
+    #[ORM\ManyToOne(targetEntity: Size::class, inversedBy: 'stocks')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Size $size = null;
+
+    #[ORM\Column]
+    private int $quantity = 0;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): static
-    {
-        $this->quantity = $quantity;
-
-        return $this;
     }
 
     public function getProduct(): ?Product
@@ -49,7 +37,6 @@ class Stock
     public function setProduct(?Product $product): static
     {
         $this->product = $product;
-
         return $this;
     }
 
@@ -61,7 +48,17 @@ class Stock
     public function setSize(?Size $size): static
     {
         $this->size = $size;
+        return $this;
+    }
 
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): static
+    {
+        $this->quantity = $quantity;
         return $this;
     }
 }

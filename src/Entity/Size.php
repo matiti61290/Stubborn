@@ -16,17 +16,17 @@ class Size
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $sizes = null;
+    private ?string $sizeLabel = null; // Renommé pour plus de clarté
 
     /**
      * @var Collection<int, Stock>
      */
-    #[ORM\OneToMany(targetEntity: Stock::class, mappedBy: 'size')]
-    private Collection $size;
+    #[ORM\OneToMany(targetEntity: Stock::class, mappedBy: 'size', cascade: ['persist', 'remove'])]
+    private Collection $stocks; // Renommé pour éviter la confusion avec le nom "size"
 
     public function __construct()
     {
-        $this->size = new ArrayCollection();
+        $this->stocks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -34,45 +34,42 @@ class Size
         return $this->id;
     }
 
-    public function getSizes(): ?string
+    public function getSizeLabel(): ?string
     {
-        return $this->sizes;
+        return $this->sizeLabel;
     }
 
-    public function setSizes(string $sizes): static
+    public function setSizeLabel(string $sizeLabel): static
     {
-        $this->sizes = $sizes;
-
+        $this->sizeLabel = $sizeLabel;
         return $this;
     }
 
     /**
      * @return Collection<int, Stock>
      */
-    public function getSize(): Collection
+    public function getStocks(): Collection
     {
-        return $this->size;
+        return $this->stocks;
     }
 
-    public function addSize(Stock $size): static
+    public function addStock(Stock $stock): static
     {
-        if (!$this->size->contains($size)) {
-            $this->size->add($size);
-            $size->setSize($this);
+        if (!$this->stocks->contains($stock)) {
+            $this->stocks->add($stock);
+            $stock->setSize($this);
         }
-
         return $this;
     }
 
-    public function removeSize(Stock $size): static
+    public function removeStock(Stock $stock): static
     {
-        if ($this->size->removeElement($size)) {
-            // set the owning side to null (unless already changed)
-            if ($size->getSize() === $this) {
-                $size->setSize(null);
+        if ($this->stocks->removeElement($stock)) {
+            // Dissocier l'entité Size de Stock
+            if ($stock->getSize() === $this) {
+                $stock->setSize(null);
             }
         }
-
         return $this;
     }
 }
