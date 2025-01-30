@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Sweat-shirts{% endblock %}
+
+{% block body %}
+    <h1>Liste des Sweat-shirts</h1>
+
+    <a href="{{ path('sweatshirt_new') }}">Ajouter un Sweat-shirt</a>
+
+    <ul>
+        {% for product in products %}
+            <li>
+                {{ product.name }} - {{ product.price }}€
+                <a href="{{ path('sweatshirt_edit', {id: product.id}) }}">Modifier</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

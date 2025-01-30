@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter / Modifier un Sweat-shirt{% endblock %}
+
+{% block body %}
+    <h1>Ajouter / Modifier un Sweat-shirt</h1>
+
+    {{ form_start(form) }}
+        <div>
+            {{ form_row(form.name) }}
+            {{ form_row(form.price) }}
+        </div>
+
+        <h2>Stock par Taille</h2>
+        {% for stockForm in form.stocks %}
+            <div>
+                {{ form_row(stockForm.size) }}
+                {{ form_row(stockForm.quantity) }}
+            </div>
+        {% endfor %}
+
+        {# <button type="submit">Enregistrer</button> #}
+    {{ form_end(form) }}
+
+{% endblock %}
