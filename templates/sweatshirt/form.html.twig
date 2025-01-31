@@ -9,17 +9,20 @@
         <div>
             {{ form_row(form.name) }}
             {{ form_row(form.price) }}
+            {{ form_row(form.image) }}
         </div>
 
         <h2>Stock par Taille</h2>
-        {% for stockForm in form.stocks %}
+        {% for size in sizes %}
             <div>
-                {{ form_row(stockForm.size) }}
-                {{ form_row(stockForm.quantity) }}
+                <label for="stock_{{ size.id }}">Taille {{ size.sizeLabel }}</label>
+                {{ form_row(form.stocks[loop.index0].quantity) }}
             </div>
         {% endfor %}
 
-        {# <button type="submit">Enregistrer</button> #}
     {{ form_end(form) }}
-
+    {% if product.image %}
+        <h3>Image du produit</h3>
+        <img src="{{ asset('uploads/' ~ product.image) }}" alt="Image du produit" width="200" />
+    {% endif %}
 {% endblock %}

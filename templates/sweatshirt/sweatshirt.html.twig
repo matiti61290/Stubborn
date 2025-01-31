@@ -1,0 +1,16 @@
+{%extends 'base.html.twig' %}
+
+{% block title %} Detail {{ product.name }} {% endblock %}
+
+{% block body %}
+    <h1>{{ product.name }}</h1>
+    <h3>Price: {{ product.price }} </h3>
+    <img src="{{ asset('uploads/' ~ product.image) }}" />
+    {% for size in sizes %}
+        <div>
+            <label for="stock_{{ size.id }}">Taille {{ size.sizeLabel }}</label>
+                {{ product.stocks[loop.index0].quantity }}
+        </div>
+    {% endfor %}
+
+{% endblock %}
