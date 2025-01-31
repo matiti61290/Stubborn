@@ -21,6 +21,9 @@ class Product
     #[ORM\Column]
     private ?float $price = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
+
     /**
      * @var Collection<int, Stock>
      */
@@ -62,6 +65,17 @@ class Product
         return $this;
     }
 
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+        return $this;
+    }
+
     /**
      * @return Collection<int, Stock>
      */
@@ -83,7 +97,6 @@ class Product
     public function removeStock(Stock $stock): static
     {
         if ($this->stocks->removeElement($stock)) {
-            // set the owning side to null (unless already changed)
             if ($stock->getProduct() === $this) {
                 $stock->setProduct(null);
             }

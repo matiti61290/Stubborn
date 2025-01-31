@@ -15,15 +15,9 @@ class StockType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('size', EntityType::class, [
-                'class' => Size::class,
-                'choice_label' => 'sizeLabel',
-                'label' => 'Taille',
-                'disabled' => true, // La taille est fixe
-            ])
             ->add('quantity', IntegerType::class, [
                 'label' => 'Stock disponible',
-                'required' => true
+                'required' => true,
             ]);
     }
 

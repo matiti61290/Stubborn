@@ -11,6 +11,7 @@
         {% for product in products %}
             <li>
                 {{ product.name }} - {{ product.price }}€
+                <a href="{{ path('sweatshirt_details', {id: product.id}) }}">Voir les details</a>
                 <a href="{{ path('sweatshirt_edit', {id: product.id}) }}">Modifier</a>
             </li>
         {% endfor %}
