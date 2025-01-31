@@ -8,6 +8,7 @@ use App\Entity\Stock;
 use App\Form\SweatshirtType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,5 +97,29 @@ class SweatshirtController extends AbstractController
             'sizes' => $sizes,
             'product' => $product
         ]);
+    }
+
+    #[Route('/sweatshirt/{id}/delete', name: 'sweatshirt_delete', methods: ['POST'])]
+    public function delete(Product $product, EntityManagerInterface $em, Request $request): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
+            $filesystem = new Filesystem();
+
+            // Supprimer l'image du dossier uploads si elle existe
+            if ($product->getImage()) {
+                $imagePath = $this->getParameter('uploads_directory') . '/' . $product->getImage();
+                if ($filesystem->exists($imagePath)) {
+                    $filesystem->remove($imagePath);
+                }
+            }
+
+            // Supprimer le produit de la base de données
+            $em->remove($product);
+            $em->flush();
+
+            $this->addFlash('success', 'Le sweatshirt a été supprimé avec succès.');
+        }
+
+        return $this->redirectToRoute('sweatshirts');
     }
 }

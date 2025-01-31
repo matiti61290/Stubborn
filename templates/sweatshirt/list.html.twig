@@ -13,6 +13,10 @@
                 {{ product.name }} - {{ product.price }}€
                 <a href="{{ path('sweatshirt_details', {id: product.id}) }}">Voir les details</a>
                 <a href="{{ path('sweatshirt_edit', {id: product.id}) }}">Modifier</a>
+                <form action="{{ path('sweatshirt_delete', {'id': product.id}) }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce sweatshirt ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </form>
             </li>
         {% endfor %}
     </ul>
