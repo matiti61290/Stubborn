@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Product;
 use App\Form\StockType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,9 +28,13 @@ class SweatshirtType extends AbstractType
             ->add('price', NumberType::class, [
                 'label' => 'Prix',
             ])
+            ->add('highlighted', CheckboxType::class, [
+                'label' => 'Le sweat est-il mis en avant?',
+                'required' => False,
+            ])
             ->add('image', FileType::class, [
                 'label'=> 'Image du produit (jpeg/png)',
-                'required'=> true,
+                'required'=> !$options['is_edit'],
                 'mapped'=> false,
                 'constraints' => [
                     new Image([
@@ -55,6 +60,7 @@ class SweatshirtType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Product::class,
+            'is_edit' => False
         ]);
     }
 }

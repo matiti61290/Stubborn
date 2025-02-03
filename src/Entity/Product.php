@@ -31,6 +31,9 @@ class Product
 
     private Collection $stocks;
 
+    #[ORM\Column]
+    private ?bool $highlighted = null;
+
     public function __construct()
     {
         $this->stocks = new ArrayCollection();
@@ -101,6 +104,18 @@ class Product
                 $stock->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isHighlighted(): ?bool
+    {
+        return $this->highlighted;
+    }
+
+    public function setHighlighted(bool $highlighted): static
+    {
+        $this->highlighted = $highlighted;
 
         return $this;
     }

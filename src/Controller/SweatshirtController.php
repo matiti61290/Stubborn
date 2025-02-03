@@ -62,7 +62,9 @@ class SweatshirtController extends AbstractController
         }
 
         // Création du formulaire
-        $form = $this->createForm(SweatshirtType::class, $product);
+        $form = $this->createForm(SweatshirtType::class, $product, [
+            'is_edit' =>$product->getId() !== null,
+        ]);
 
         $form->handleRequest($request);
 

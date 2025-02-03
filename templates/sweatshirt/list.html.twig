@@ -10,7 +10,11 @@
     <ul>
         {% for product in products %}
             <li>
+            {% if product.highlighted %}
+                {{ product.name }} - {{ product.price }}€ - Mis en avant
+            {% else %}
                 {{ product.name }} - {{ product.price }}€
+            {% endif %}
                 <a href="{{ path('sweatshirt_details', {id: product.id}) }}">Voir les details</a>
                 <a href="{{ path('sweatshirt_edit', {id: product.id}) }}">Modifier</a>
                 <form action="{{ path('sweatshirt_delete', {'id': product.id}) }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce sweatshirt ?');">
