@@ -5,6 +5,11 @@
 {% block body %}
     <h1>{{ product.name }}</h1>
     <h3>Price: {{ product.price }} </h3>
+    {% if product.highlighted %}
+        <h3>Le produit est mis en avant</h3>
+    {% else %}
+        <h3>Le produit n'est pas mis en avant</h3>
+    {% endif %}
     <img src="{{ asset('uploads/' ~ product.image) }}" />
     {% for size in sizes %}
         <div>
