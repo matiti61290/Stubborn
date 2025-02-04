@@ -13,6 +13,7 @@ final class HomeController extends AbstractController
     {
         return $this->render('home/home.html.twig', [
             'controller_name' => 'HomeController',
+            'user' => $this->getUser(),
         ]);
     }
 }

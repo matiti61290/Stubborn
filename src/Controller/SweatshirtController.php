@@ -17,28 +17,28 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class SweatshirtController extends AbstractController
 {
-    #[Route('/sweatshirts', name: 'sweatshirts')]
+    #[Route('/admin', name: 'admin')]
     public function list(EntityManagerInterface $em): Response
     {
         $products = $em->getRepository(Product::class)->findAll();
 
-        return $this->render('sweatshirt/list.html.twig', [
+        return $this->render('admin/list.html.twig', [
             'products' => $products,
         ]);
     }
 
-    #[Route('sweatshirt/{id}', name: 'sweatshirt_details')]
+    #[Route('admin/sweatshirt/{id}', name: 'sweatshirt_details')]
     public function sweatshirtDetails(?Product $product, EntityManagerInterface $em): Response
     {
         $sizes = $em->getRepository(Size::class)->findAll();
-        return $this->render('sweatshirt/sweatshirt.html.twig', [
+        return $this->render('admin/sweatshirt.html.twig', [
             'product' => $product,
             'sizes' => $sizes
         ]);
     }
 
-    #[Route('/new', name: 'sweatshirt_new')]
-    #[Route('/sweatshirt/{id}/edit', name: 'sweatshirt_edit')]
+    #[Route('admin/new', name: 'sweatshirt_new')]
+    #[Route('admin/sweatshirt/{id}/edit', name: 'sweatshirt_edit')]
     public function form(Product $product = null, Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
         if (!$product) {
@@ -91,17 +91,17 @@ class SweatshirtController extends AbstractController
             $em->persist($product);
             $em->flush();
 
-            return $this->redirectToRoute('sweatshirts');
+            return $this->redirectToRoute('admin');
         }
 
-        return $this->render('sweatshirt/form.html.twig', [
+        return $this->render('admin/form.html.twig', [
             'form' => $form->createView(),
             'sizes' => $sizes,
             'product' => $product
         ]);
     }
 
-    #[Route('/sweatshirt/{id}/delete', name: 'sweatshirt_delete', methods: ['POST'])]
+    #[Route('admin/sweatshirt/{id}/delete', name: 'sweatshirt_delete', methods: ['POST'])]
     public function delete(Product $product, EntityManagerInterface $em, Request $request): Response
     {
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
@@ -122,6 +122,6 @@ class SweatshirtController extends AbstractController
             $this->addFlash('success', 'Le sweatshirt a été supprimé avec succès.');
         }
 
-        return $this->redirectToRoute('sweatshirts');
+        return $this->redirectToRoute('admin');
     }
 }
