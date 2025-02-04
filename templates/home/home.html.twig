@@ -23,4 +23,14 @@
         <a href="{{ path('app_login') }}">Se connecter</a>
     {% endif %}
 
+    <div>
+        {% for highlightedProduct in highlightedProducts %}
+            <li>
+                <p>Nom: {{ highlightedProduct.name }}</p>
+                <p>Prix: {{ highlightedProduct.price }}</p>
+                <img src="{{ asset('uploads/' ~ highlightedProduct.image) }}" />
+            </li>
+        {% endfor %}
+    </div>
+
 {% endblock %}
