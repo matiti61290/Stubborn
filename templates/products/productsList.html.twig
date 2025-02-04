@@ -14,6 +14,7 @@
         <li> 
             <p>Name: {{ product.name }} - Prix: {{ product.price }}</p>
             <img src="{{ asset('uploads/' ~ product.image ) }}" />
+            <a href="{{ path('product_detail', {id: product.id})}}">Details</a>
         </li>
     {% endfor %}
 </div>
