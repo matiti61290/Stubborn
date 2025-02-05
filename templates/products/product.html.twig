@@ -13,10 +13,15 @@
     <p> {{ product.price }}
     <img src="{{ asset('uploads/' ~ product.image) }}" />
 
-    {% for size in sizes %}
-    <div>
-        Stock: {{size.sizeLabel}} {{ product.stocks[loop.index0].quantity }}
-    </div>
-    {% endfor %}
+    <form action="{{ path('cart_add', {'id': product.id}) }}" method="get">
+        <label for="size">Taille :</label>
+        <select name="size" id="size">
+            <option value="S">S</option>
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Ajouter au panier</button>
+    </form>
 </div>
 {% endblock %}
