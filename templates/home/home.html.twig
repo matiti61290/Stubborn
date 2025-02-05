@@ -11,7 +11,6 @@
 <div class="example-wrapper">
     <h1>Home page</h1>
     <div>
-        <a href="{{ path('app_register')}} ">Creer un compte</a>
         {% if user %}
             <h3>Welcome {{ user.name }}</h3>
             <form action="{{ path('app_logout') }}" method="post">
@@ -21,6 +20,7 @@
                 <a href="{{ path('admin') }}">Administration</a>
             {% endif %}
         {% else %}
+            <a href="{{ path('app_register')}} ">Creer un compte</a>
             <a href="{{ path('app_login') }}">Se connecter</a>
         {% endif %}
     </div>
