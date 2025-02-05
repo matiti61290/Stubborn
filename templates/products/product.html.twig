@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductsController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div>
+    <h3> {{ product.name }} <h3>
+    <p> {{ product.price }}
+    <img src="{{ asset('uploads/' ~ product.image) }}" />
+
+    <form action="{{ path('cart_add', {'id': product.id}) }}" method="get">
+        <label for="size">Taille :</label>
+        <select name="size" id="size">
+            <option value="S">S</option>
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Ajouter au panier</button>
+    </form>
+</div>
+{% endblock %}

@@ -10,17 +10,32 @@
 
 <div class="example-wrapper">
     <h1>Home page</h1>
-    <a href="{{ path('app_register')}} ">Creer un compte</a>
-    {% if user %}
-        <h3>Welcome {{ user.name }}</h3>
-        <form action="{{ path('app_logout') }}" method="post">
-            <button type="submit">Se deconnecter</button>
-        </form>
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('admin') }}">Administration</a>
+    <div>
+        {% if user %}
+            <h3>Welcome {{ user.name }}</h3>
+            <form action="{{ path('app_logout') }}" method="post">
+                <button type="submit">Se deconnecter</button>
+            </form>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('admin') }}">Administration</a>
+            {% endif %}
+        {% else %}
+            <a href="{{ path('app_register')}} ">Creer un compte</a>
+            <a href="{{ path('app_login') }}">Se connecter</a>
         {% endif %}
-    {% else %}
-        <a href="{{ path('app_login') }}">Se connecter</a>
-    {% endif %}
+    </div>
+
+    <div>
+        {% for highlightedProduct in highlightedProducts %}
+            <li>
+                <p>Nom: {{ highlightedProduct.name }}</p>
+                <p>Prix: {{ highlightedProduct.price }}</p>
+                <img src="{{ asset('uploads/' ~ highlightedProduct.image) }}" />
+            </li>
+        {% endfor %}
+    </div>
+    <div>
+        <a href="{{ path('products') }}"> Voir les produits </a>
+    </div>
 
 {% endblock %}
