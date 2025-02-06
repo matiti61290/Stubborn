@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Liter&display=swap');
+
+$liter: 'Liter';
+
 .slogan{
   font-size: 0.7em;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: $liter;
 } 
 
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
