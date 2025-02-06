@@ -31,4 +31,18 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findByPriceInterval(?string $priceRange): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if ($priceRange) {
+            list($min, $max) = explode('-', $priceRange);
+            $qb->andWhere('p.price BETWEEN :min AND :max')
+            ->setParameter('min', $min)
+            ->setParameter('max', $max);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }
