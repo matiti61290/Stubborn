@@ -9,6 +9,7 @@ use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Product;
 use App\Entity\Size;
+use Symfony\Component\HttpFoundation\Request;
 
 final class ProductsController extends AbstractController
 {
@@ -20,6 +21,17 @@ final class ProductsController extends AbstractController
 
         return $this->render('products/productsList.html.twig', [
             'controller_name' => 'ProductsController',
+            'products' => $products,
+        ]);
+    }
+
+    #[Route('/sweatshirts', name:'products')]
+    public function filterProducts(ProductRepository $productRepository, Request $request)
+    {
+        $priceRange = $request->query->get('price_range');
+        $products = $productRepository->findByPriceInterval($priceRange);
+    
+        return $this->render('products/productsList.html.twig', [
             'products' => $products,
         ]);
     }
