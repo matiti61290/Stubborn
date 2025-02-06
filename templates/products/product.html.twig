@@ -8,20 +8,40 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div>
-    <h3> {{ product.name }} <h3>
-    <p> {{ product.price }}
-    <img src="{{ asset('uploads/' ~ product.image) }}" />
+{# <div>
 
-    <form action="{{ path('cart_add', {'id': product.id}) }}" method="get">
-        <label for="size">Taille :</label>
-        <select name="size" id="size">
-            <option value="S">S</option>
-            <option value="M" selected>M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-        </select>
-        <button type="submit" class="btn btn-primary">Ajouter au panier</button>
-    </form>
+    
+
+
+</div> #}
+
+<div class="container border d-flex flex-row justify-content-evenly mt-5 pt-4">
+    <div>
+        <img src="{{ asset('uploads/' ~ product.image) }}" style="height: 40em;" />
+    </div>
+
+        <div class="mt-5">
+            <form action="{{ path('cart_add', {'id': product.id}) }}" method="get">
+                <div class="d-flex flex-row">
+                    <div>
+                        <h5> {{ product.name }} <h5>
+                        <p> {{ product.price }}</p>
+                    </div>
+                    <div>
+                        <label for="size">Taille :</label>
+                        <select name="size" id="size" size="5">
+                            <option value="XS">XS</option>
+                            <option value="S">S</option>
+                            <option value="M" selected>M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-light border border-3 border-black mt-5"
+                    style="--bs-btn-padding-y: 1rem; --bs-btn-padding-x: 6rem; --bs-btn-font-size: 1.3rem;">Ajouter au panier</button>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
