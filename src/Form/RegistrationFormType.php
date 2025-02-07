@@ -5,12 +5,11 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -21,6 +20,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'label' => "Nom d'utilisateur :",
                 'constraints' => [
                     new NotBlank(['message'=> 'Le nom est obligatoire.']),
                     new Length([
@@ -30,11 +30,12 @@ class RegistrationFormType extends AbstractType
                         'maxMessage' => 'Le nom ne peut contenir plus de 50 caracteres'
                     ]),
                 ],
-                'label_attr' => [
-                  'class' => ''  
+                'attr' => [
+                  'class' => 'd-flex flex-row mb-2 pt-1 border border-dark-subtle'  
                 ],
             ])
             ->add('email', TextType::class, [
+                'label' => 'Adresse mail :',
                 'required' => true,
                 'constraints' => [
                     new NotBlank([
@@ -48,9 +49,13 @@ class RegistrationFormType extends AbstractType
                         max: 180,
                         maxMessage: "l'email ne doit pas depasser 180 caracteres."
                     )
-                ]
+                    ],
+                'attr' => [
+                    'class' => 'd-flex flex-row py-1 border border-dark-subtle'  
+                    ],
             ])
             ->add('deliveryAddress', TextType::class, [
+                'label' => "Adresse de livraison",
                 'required' => true,
                 'constraints' => [
                     new Length([
@@ -63,13 +68,22 @@ class RegistrationFormType extends AbstractType
                         pattern: "/^[0-9a-zA-ZÀ-ÖØ-öø-ÿ\s,'\-]+$/",
                         message: "Le format de l'adresse comporte des caracteres invalide."
                     )
-                ]
+                ],
+                'attr' => [
+                    'class' => 'd-flex flex-row py-1 border border-dark-subtle'  
+                  ],
             ])
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passe doivent etre identiques',
+                'options' => [
+                    'attr' => ['class' => 'd-flex flex-column border border-dark-subtle'
+                ]],
+                'required' => true,
+                'first_options' => ['label' => 'Mot de passe',
+                                        'attr' => ['class' => 'd-flex flex-column border border-dark-subtle py-1']],
+                'second_options' => ['label' => 'Confirmer le mot de passe :',
+                'attr' => ['class' => 'd-flex flex-column border border-dark-subtle py-2']],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez entrer un mot de passe.',
