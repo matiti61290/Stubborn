@@ -8,24 +8,37 @@
     {% endfor %}
 <div class="container">
     <div style="width: fit-content" class="mx-auto border border-1 mt-5">
-        <h1>Register</h1>
+        <div class=" d-flex flex-column justify-content-center">
+            <p class="mt-3 ms-2 mb-0 fs-5">S'inscrire</p>
+            <hr style="width: 90%" class="mx-auto border border-info"/>
+            <div class="ps-2 pe-5">
+                {{ form_errors(registrationForm) }}
 
-        {{ form_errors(registrationForm) }}
+                {{ form_start(registrationForm) }}
+                <div class="mb-5">
+                    {{ form_row(registrationForm.name) }}
+                    {{ form_row(registrationForm.email) }}
+                </div>
+                <div class="mb-5">
+                    {{ form_row(registrationForm.deliveryAddress) }}
+                </div>
+                {{ form_row(registrationForm.password, {
+                    label: 'Password'
+                }) }}
 
-        {{ form_start(registrationForm) }}
-            {{ form_row(registrationForm.name) }}
-            {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.deliveryAddress) }}
-            {{ form_row(registrationForm.plainPassword, {
-                label: 'Password'
-            }) }}
-
-            <button type="submit" class="btn">Register</button>
-        {{ form_end(registrationForm) }}
-
-        <hr style="width: 80%" class="mx-auto"/>
-        <h4>Deja inscrit?</h4>
-        <a href="{{ path('app_login') }}">Se connecter</a>
+                <button type="submit" class="btn btn-info fw-bold text-white mt-3"
+                    style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .20rem; --bs-btn-font-size: 1.25rem;">
+                    Creer un compte</button>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+        <hr style="width: 90%" class="mx-auto border border-info"/>
+        <div class="d-flex flex-column justify-content-start align-items-baseline ps-2 mb-3">
+            <p class="fs-5 mb-0">Deja inscrit?</p>
+            <a class="btn btn-info fw-bold text-white" href="{{ path('app_login') }}"
+            style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .20rem; --bs-btn-font-size: 1.25rem;">
+            Se Connecter</a>
+        </div>
     </div>
 </div>
 {% endblock %}

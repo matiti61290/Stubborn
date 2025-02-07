@@ -31,11 +31,11 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /** @var string $plainPassword */
-            $plainPassword = $form->get('plainPassword')->getData();
+            /** @var string $password */
+            $password = $form->get('password')->getData();
 
             // encode the plain password
-            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+            $user->setPassword($userPasswordHasher->hashPassword($user, $password));
             $user->setRoles(['ROLE_USER']);
 
             $entityManager->persist($user);
@@ -82,3 +82,4 @@ class RegistrationController extends AbstractController
         return $this->redirectToRoute('app_register');
     }
 }
+
