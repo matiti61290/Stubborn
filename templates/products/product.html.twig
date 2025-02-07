@@ -23,13 +23,13 @@
         <div class="mt-5">
             <form action="{{ path('cart_add', {'id': product.id}) }}" method="get">
                 <div class="d-flex flex-row">
-                    <div>
-                        <h5> {{ product.name }} <h5>
+                    <div class="me-5">
+                        <h5 class="pb-5"> {{ product.name }} <h5>
                         <p> {{ product.price }}</p>
                     </div>
-                    <div>
-                        <label for="size">Taille :</label>
-                        <select name="size" id="size" size="5">
+                    <div class="d-flex flex-column ms-5">
+                        <label class="border border-bottom-0 border-2 text-center fs-4 fw-semibold" for="size">Taille</label>
+                        <select class="border border-2" style="width:8rem;" name="size" id="size" size="5">
                             <option value="XS">XS</option>
                             <option value="S">S</option>
                             <option value="M" selected>M</option>
