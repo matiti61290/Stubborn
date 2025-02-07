@@ -28,8 +28,11 @@ class RegistrationFormType extends AbstractType
                         'minMessage' => 'Le nom doit contenir au moins 2 caracteres',
                         'max' => 50,
                         'maxMessage' => 'Le nom ne peut contenir plus de 50 caracteres'
-                ])
-                ]
+                    ]),
+                ],
+                'label_attr' => [
+                  'class' => ''  
+                ],
             ])
             ->add('email', TextType::class, [
                 'required' => true,
@@ -47,13 +50,20 @@ class RegistrationFormType extends AbstractType
                     )
                 ]
             ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
+            ->add('deliveryAddress', TextType::class, [
+                'required' => true,
                 'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                    new Length([
+                        'min' => 5,
+                        'minMessage' => "L'adresse doit comporter au moins 5 caracteres.",
+                        'max' => 255,
+                        'maxMessage' => "L'adresse ne peut pas depasser 255 caracteres"
                     ]),
-                ],
+                    new Regex(
+                        pattern: "/^[0-9a-zA-ZÀ-ÖØ-öø-ÿ\s,'\-]+$/",
+                        message: "Le format de l'adresse comporte des caracteres invalide."
+                    )
+                ]
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
