@@ -8,15 +8,58 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<h2>Votre Panier</h2>
-    <div>
-        <a href="{{ path('products') }}"> Continuer vos achats </a>
-    </div>
+    {# <div>
+        
+    </div> #}
 {% if cart is empty %}
     <p>Votre panier est vide.</p>
 {% else %}
+<div class="container">
+    {% for item in cart %}
+        <div class="d-flex flex-row border border-2 justify-content-around my-5 py-2">
+            <img src="{{ asset('uploads/' ~ item.product.image) }}" />
+            <div class="d-flex flex-column justify-content-between">
+                {# <table >
+                    <tr> 
+                        <th class="">Produit</th>
+                        <th>Prix</th>
+                        <th>Taille</th>
+                    </tr>
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.product.price }}</td>
+                        <td>{{ item.size }}</td>
+                    </tr>
+                </table> #}
+                <div style="width: 31rem" class="d-flex flex-row justify-content-between mt-3">
+                    <div>
+                        <h5>Produit</h5>
+                        <p>{{ item.product.name }}</p>
+                    </div>
+                    <div>
+                        <h5>Prix</h5>
+                        <p>{{ item.product.price }}<p>
+                    </div>
+                    <div>
+                        <h5>Taille</h5>
+                        <p>{{ item.size }}<p>
+                    </div>
+                </div>
+                <a href="{{ path('cart_remove', {'id': item.product.id, 'size': item.size}) }}" class="btn btn-danger fs-5 align-self-end" style="width: 15rem">Retirer du panier</a>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="d-flex flex-row-reverse align-items-baseline">
+        <div class="d-flex flex-column mx-3">
+            <a class="btn btn-danger my-1 fs-5 px-5" href="#">Finaliser la commande</a>
+            <a class="btn btn-success my-1 fs-5 px-5"  href="{{ path('products') }}"> Continuer vos achats </a>
+        </div>
+        <p class="border border-2 border-dark mx-3 px-3 py-1 fs-4 fw-medium">Total:.....€</p>
+    </div>
+</div>
+{% endif %}
 
-    <div>
+    {# <div>
         <table>
             <tr>
                 <th>Produit</th>
@@ -30,13 +73,13 @@
                     <td>{{ item.size }}</td>
                     <td>{{ item.quantity }}</td>
                     <td>
-                        <a href="{{ path('cart_remove', {'id': item.product.id, 'size': item.size}) }}" class="btn btn-danger">Supprimer</a>
+                        
                     </td>
                 </tr>
             {% endfor %}
         </table>
         <a href="{{ path('cart_show') }}" class="btn btn-secondary">Rafraîchir</a>
-    </div>
-{% endif %}
+    </div> #}
+
 
 {% endblock %}
