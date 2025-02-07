@@ -39,6 +39,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
+    #[ORM\Column(length: 255)]
+    private ?string $delivery_address = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -134,6 +137,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getDeliveryAddress(): ?string
+    {
+        return $this->delivery_address;
+    }
+
+    public function setDeliveryAddress(string $delivery_address): static
+    {
+        $this->delivery_address = $delivery_address;
 
         return $this;
     }
