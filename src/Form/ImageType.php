@@ -11,18 +11,20 @@ class ImageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        dump($options['is_edit']);
         $builder->add('image', FileType::class, [
             'label' => 'Image du produit (PNG, JPG)',
-            'mapped' => false, // ne pas lier directement à l'entité Product
-            'required' => false,
+            'mapped' => false,
             'attr' => [
-                'accept' => 'image/png, image/jpeg', // restreindre les types de fichiers
+                'accept' => 'image/png, image/jpeg',
             ]
         ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-    
+        $resolver->setDefaults([
+            'data_class' => null,
+        ]);
     }
 }

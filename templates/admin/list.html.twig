@@ -3,6 +3,29 @@
 {% block title %}Liste des Sweat-shirts{% endblock %}
 
 {% block body %}
+    {# <div class="container">
+            {{ form_start(form) }}
+        <div>
+            {{ form_row(form.name) }}
+            {{ form_row(form.price) }}
+            {{ form_row(form.highlighted) }}
+            {{ form_row(form.image) }}
+        </div>
+
+        <h2>Stock par Taille</h2>
+        {% for size in sizes %}
+            <div>
+                <label for="stock_{{ size.id }}">Taille {{ size.sizeLabel }}</label>
+                {{ form_row(form.stocks[loop.index0].quantity) }}
+            </div>
+        {% endfor %}
+
+    {{ form_end(form) }}
+    {% if product.image %}
+        <h3>Image du produit</h3>
+        <img src="{{ asset('uploads/' ~ product.image) }}" alt="Image du produit" width="200" />
+    {% endif %}
+    </div>
     <h1>Liste des Sweat-shirts</h1>
 
     <a href="{{ path('sweatshirt_new') }}">Ajouter un Sweat-shirt</a>
@@ -15,7 +38,7 @@
             {% else %}
                 Nom: {{ product.name }} - Prix: {{ product.price }} €
             {% endif %}
-                <a href="{{ path('sweatshirt_details', {id: product.id}) }}">Voir les details</a>
+
                 <a href="{{ path('sweatshirt_edit', {id: product.id}) }}">Modifier</a>
                 <form action="{{ path('sweatshirt_delete', {'id': product.id}) }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce sweatshirt ?');">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
@@ -23,5 +46,28 @@
                 </form>
             </li>
         {% endfor %}
-    </ul>
+    </ul> #}
+
+     <h1>Gestion des Sweatshirts</h1>
+
+    <!-- Formulaire de création -->
+    <h2>Ajouter un nouveau Sweatshirt</h2>
+    {{ form_start(createForm) }}
+        {{ form_widget(createForm) }}
+    {{ form_end(createForm) }}
+
+    <h2>Liste des Sweatshirts</h2>
+
+    {% for product in products %}
+        <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+            <h3>{{ product.name }}</h3>
+            <p>Image : <img src="{{ asset('uploads/' ~ product.image) }}" width="100"></p>
+
+            <!-- Formulaire d'édition -->
+            <h4>Modifier ce sweatshirt</h4>
+            {{ form_start(editForms[product.id], {'action': path('sweatshirt_edit', { id: product.id }), 'method': 'POST'}) }}
+                {{ form_widget(editForms[product.id]) }}
+            {{ form_end(editForms[product.id]) }}
+        </div>
+    {% endfor %}
 {% endblock %}
