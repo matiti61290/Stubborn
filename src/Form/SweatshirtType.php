@@ -33,9 +33,8 @@ class SweatshirtType extends AbstractType
                 'required' => False,
             ])
             ->add('image', FileType::class, [
-                'label'=> 'Image du produit (jpeg/png)',
-                'required'=> !$options['is_edit'],
                 'mapped'=> false,
+                'required' => $options['is_edit'] ? false : true,
                 'constraints' => [
                     new Image([
                         'maxSize' => '10M',
@@ -50,9 +49,6 @@ class SweatshirtType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'label' => 'Stocks',
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Enregistrer',
             ]);
     }
 
@@ -60,7 +56,7 @@ class SweatshirtType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Product::class,
-            'is_edit' => False
+            'is_edit' => false
         ]);
     }
 }
