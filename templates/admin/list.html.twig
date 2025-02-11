@@ -47,14 +47,36 @@
             </li>
         {% endfor %}
     </ul> #}
+    <div class="container bg-danger bg-gradient border border-2 p-2">
+        {{ form_start(createForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
+        
+        <div class="d-flex flex-row align-items-center">
+            <div class="me-3">
+                {{ form_row(createForm.image) }}
+            </div>
 
-     <h1>Gestion des Sweatshirts</h1>
+            <div class="d-flex flex-column flex-grow-1">
+                <div class="d-flex flex-row mb-2 justify-content-evenly">
+                        {{ form_row(createForm.name, {'attr': {'placeholder': 'Nom'}}) }}
+                        {{ form_row(createForm.price, {'attr': {'placeholder': 'Prix'}}) }}
+                        {{ form_row(createForm.highlighted) }}
+                </div>
 
-    <!-- Formulaire de création -->
-    <h2>Ajouter un nouveau Sweatshirt</h2>
-    {{ form_start(createForm) }}
-        {{ form_widget(createForm) }}
-    {{ form_end(createForm) }}
+                <div class="d-flex flex-row justify-content-between">
+                    {% for stockField in createForm.stocks %}
+                        <div class="me-2 text-center">
+                            <label class="form-label">{{ stockField.vars.size_label }}</label>
+                            {{ form_widget(stockField.quantity, {'attr': {'placeholder': 'Stock'}}) }}
+                        </div>
+                    {% endfor %}
+                    
+                </div>
+                <button type="submit" class="btn btn-light border mt-3 align-self-end" style="width: 15rem;">AJOUTER</button>
+            </div>
+        </div>
+        {{ form_end(createForm) }}
+    </div>
+
 
     <h2>Liste des Sweatshirts</h2>
 

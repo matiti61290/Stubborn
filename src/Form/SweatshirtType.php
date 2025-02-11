@@ -50,9 +50,6 @@ class SweatshirtType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'label' => 'Stocks',
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Enregistrer',
             ]);
     }
 
