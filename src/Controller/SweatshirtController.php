@@ -113,25 +113,26 @@ class SweatshirtController extends AbstractController
     }
     
 
-    #[Route('admin/sweatshirt/{id}/delete', name: 'sweatshirt_delete', methods: ['POST'])]
+    #[Route('/admin/sweatshirt/{id}/delete', name: 'sweatshirt_delete', methods: ['POST'])]
     public function delete(Product $product, EntityManagerInterface $em, Request $request): Response
     {
+    
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
             $filesystem = new Filesystem();
-
+    
             if ($product->getImage()) {
                 $imagePath = $this->getParameter('uploads_directory') . '/' . $product->getImage();
                 if ($filesystem->exists($imagePath)) {
                     $filesystem->remove($imagePath);
                 }
             }
-
+    
             $em->remove($product);
             $em->flush();
-
+    
             $this->addFlash('success', 'Le sweatshirt a été supprimé avec succès.');
         }
-
+    
         return $this->redirectToRoute('admin');
     }
 }

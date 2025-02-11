@@ -33,7 +33,6 @@ class SweatshirtType extends AbstractType
                 'required' => False,
             ])
             ->add('image', FileType::class, [
-                'label'=> 'Image du produit (jpeg/png)',
                 'mapped'=> false,
                 'required' => $options['is_edit'] ? false : true,
                 'constraints' => [

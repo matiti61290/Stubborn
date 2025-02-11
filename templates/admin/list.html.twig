@@ -47,12 +47,12 @@
             </li>
         {% endfor %}
     </ul> #}
-    <div class="container bg-danger bg-gradient border border-2 p-2">
+    <div class="container bg-danger bg-gradient border border-3 border-dark px-2 py-4 my-3">
         {{ form_start(createForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
         
         <div class="d-flex flex-row align-items-center">
             <div class="me-3">
-                {{ form_row(createForm.image) }}
+                {{ form_row(createForm.image, {label: 'image au format PNG/JPEG','attr':{'class': 'd-flex flex-column '}}) }}
             </div>
 
             <div class="d-flex flex-column flex-grow-1">
@@ -66,10 +66,9 @@
                     {% for stockField in createForm.stocks %}
                         <div class="me-2 text-center">
                             <label class="form-label">{{ stockField.vars.size_label }}</label>
-                            {{ form_widget(stockField.quantity, {'attr': {'placeholder': 'Stock'}}) }}
+                            {{ form_widget(stockField.quantity, {'attr': {'placeholder': 'Stock', 'style': 'width:5rem;'}}) }}
                         </div>
                     {% endfor %}
-                    
                 </div>
                 <button type="submit" class="btn btn-light border mt-3 align-self-end" style="width: 15rem;">AJOUTER</button>
             </div>
@@ -77,10 +76,43 @@
         {{ form_end(createForm) }}
     </div>
 
-
-    <h2>Liste des Sweatshirts</h2>
-
-    {% for product in products %}
+{%for product in products %}
+    <div class="container border border-3 border-dark p-4 my-3">
+        {{ form_start(editForms[product.id], {'action': path('sweatshirt_edit', { id: product.id }), 'method': 'POST'}) }}
+            <div class="d-flex flex-row align-items-center">
+                <div class="d-flex flex-column">
+                    <img src="{{ asset('uploads/' ~ product.image) }}" width="100" />
+                    {{ form_row(editForms[product.id].image, {
+                        label: 'image au format PNG/JPEG','attr':{'class': 'd-flex flex-column '}
+                    }) }}
+                </div>
+                <div class="d-flex flex-column flex-grow-1">
+                    <div class="d-flex flex-row mb-2 justify-content-evenly">
+                        {{ form_row(editForms[product.id].name) }}
+                        {{ form_row(editForms[product.id].price) }}
+                        {{ form_row(editForms[product.id].highlighted)}}
+                    </div>
+                    <div class="d-flex flex-row justify-content-between">
+                        {% for stockField in editForms[product.id].stocks %}
+                            <div class="me-2 text-center">
+                                <label class="form-label">{{ stockField.vars.size_label }}</label>
+                                {{ form_widget(stockField.quantity, {'attr': {'placeholder': 'Stock', 'style': 'width:5rem;'}}) }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex flex-row-reverse gap-5 px-5">
+                        <button type="submit" class="btn btn-light border mt-3 align-self-end" style="width: 15rem;">MODIFIER</button>
+                        {{ form_end(editForms[product.id] )}}
+                        <form action="{{ path('sweatshirt_delete', {'id': product.id}) }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce sweatshirt ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                            <button type="submit" class="btn btn-light border mt-3 align-self-end" style="width: 15rem;">SUPPRIMER</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endfor %}
+    {# {% for product in products %}
         <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
             <h3>{{ product.name }}</h3>
             <p>Image : <img src="{{ asset('uploads/' ~ product.image) }}" width="100"></p>
@@ -91,5 +123,5 @@
                 {{ form_widget(editForms[product.id]) }}
             {{ form_end(editForms[product.id]) }}
         </div>
-    {% endfor %}
+    {% endfor %} #}
 {% endblock %}
