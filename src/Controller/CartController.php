@@ -32,6 +32,7 @@ class CartController extends AbstractController
         $cart = $cartService->getCart();
         $cartWithDetails = [];
 
+
         foreach ($cart as $item) {
             $product = $productRepository->find($item['productId']);
             if ($product) {
@@ -43,8 +44,11 @@ class CartController extends AbstractController
             }
         }
 
+        $totalPrice = $cartService->getTotalPrice();
+
         return $this->render('cart/cart.html.twig', [
-            'cart' => $cartWithDetails
+            'cart' => $cartWithDetails,
+            'totalPrice' => $totalPrice,
         ]);
     }
 
