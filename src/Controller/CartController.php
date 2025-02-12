@@ -8,10 +8,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 #[Route('/cart', name:'cart_')]
 class CartController extends AbstractController
 {
+    private ParameterBagInterface $parameterBag;
+
+    public function __construct(ParameterBagInterface $parameterBag)
+    {
+        $this->parameterBag = $parameterBag;
+    }
+
     #[Route('/add/{id}', name: 'add')]
     public function add(int $id, Request $request, ProductRepository $productRepository, CartService $cartService): Response
     {
@@ -29,6 +37,7 @@ class CartController extends AbstractController
     #[Route('/', name:'show')]
     public function show(CartService $cartService, ProductRepository $productRepository): Response
     {
+        $stripePublicKey = $this->parameterBag->get('env(STRIPE_PUBLIC_KEY)');
         $cart = $cartService->getCart();
         $cartWithDetails = [];
 
@@ -49,6 +58,7 @@ class CartController extends AbstractController
         return $this->render('cart/cart.html.twig', [
             'cart' => $cartWithDetails,
             'totalPrice' => $totalPrice,
+            'stripePublicKey' => $stripePublicKey
         ]);
     }
 
