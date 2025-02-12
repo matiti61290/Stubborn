@@ -72,4 +72,9 @@ class CartService
     {
         $this->session->remove('cart');
     }
+
+    public function getProductRepository(): ProductRepository
+    {
+        return $this->productRepository;
+    }
 }

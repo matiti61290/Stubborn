@@ -8,12 +8,20 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-    {# <div>
-        
-    </div> #}
 {% if cart is empty %}
     <p>Votre panier est vide.</p>
 {% else %}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+{% endfor %}
 <div class="container">
     {% for item in cart %}
         <div class="d-flex flex-row border border-2 justify-content-around my-5 py-2">
@@ -39,11 +47,13 @@
     {% endfor %}
     <div class="d-flex flex-row-reverse align-items-baseline">
         <div class="d-flex flex-column mx-3">
-            <a class="btn btn-danger my-1 fs-5 px-5" href="#">Finaliser la commande</a>
+            <a class="btn btn-danger my-1 fs-5 px-5" href=" {{path('payment')}}">Finaliser la commande</a>
             <a class="btn btn-success my-1 fs-5 px-5"  href="{{ path('products') }}"> Continuer vos achats </a>
         </div>
         <p class="border border-2 border-dark mx-3 px-3 py-1 fs-4 fw-medium">Total : {{ totalPrice|number_format(2, ',', ' ') }}€</p>
     </div>
 </div>
+
 {% endif %}
+
 {% endblock %}
