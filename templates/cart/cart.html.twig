@@ -51,7 +51,7 @@
     {% endfor %}
     <div class="d-flex flex-row-reverse align-items-baseline">
         <div class="d-flex flex-column mx-3">
-            <a class="btn btn-danger my-1 fs-5 px-5" href=" {{path('payment')}}">Finaliser la commande</a>
+            <a class="btn btn-danger my-1 fs-5 px-5" id="checkout-button">Finaliser la commande</a>
             <a class="btn btn-success my-1 fs-5 px-5"  href="{{ path('products') }}"> Continuer vos achats </a>
         </div>
         <p class="border border-2 border-dark mx-3 px-3 py-1 fs-4 fw-medium">Total : {{ totalPrice|number_format(2, ',', ' ') }}€</p>
@@ -59,7 +59,7 @@
     <div>
         <script src="https://js.stripe.com/v3/"></script>
 
-        <button id="checkout-button">Payer avec Stripe</button>
+        {# <button id="checkout-button">Payer avec Stripe</button> #}
 
         <script>
             const stripe = Stripe("{{ stripePublicKey }}");
