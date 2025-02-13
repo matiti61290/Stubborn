@@ -8,12 +8,20 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-    {# <div>
-        
-    </div> #}
 {% if cart is empty %}
     <p>Votre panier est vide.</p>
 {% else %}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+{% endfor %}
 <div class="container">
     {% for item in cart %}
         <div class="d-flex flex-row border border-2 justify-content-around my-5 py-2">
@@ -32,6 +40,10 @@
                         <h5>Taille</h5>
                         <p>{{ item.size }}<p>
                     </div>
+                    <div>
+                        <h5>Quantite</h5>
+                        <p>{{ item.quantity }}</p>
+                    </div>
                 </div>
                 <a href="{{ path('cart_remove', {'id': item.product.id, 'size': item.size}) }}" class="btn btn-danger fs-5 align-self-end" style="width: 15rem">Retirer du panier</a>
             </div>
@@ -39,11 +51,35 @@
     {% endfor %}
     <div class="d-flex flex-row-reverse align-items-baseline">
         <div class="d-flex flex-column mx-3">
-            <a class="btn btn-danger my-1 fs-5 px-5" href="#">Finaliser la commande</a>
+            <a class="btn btn-danger my-1 fs-5 px-5" href=" {{path('payment')}}">Finaliser la commande</a>
             <a class="btn btn-success my-1 fs-5 px-5"  href="{{ path('products') }}"> Continuer vos achats </a>
         </div>
         <p class="border border-2 border-dark mx-3 px-3 py-1 fs-4 fw-medium">Total : {{ totalPrice|number_format(2, ',', ' ') }}€</p>
     </div>
+    <div>
+        <script src="https://js.stripe.com/v3/"></script>
+
+        <button id="checkout-button">Payer avec Stripe</button>
+
+        <script>
+            const stripe = Stripe("{{ stripePublicKey }}");
+
+            document.getElementById('checkout-button').addEventListener('click', () => {
+                fetch('/checkout', { method: 'POST' })
+                    .then(response => response.json())
+                    .then(session => {
+                        if (session.id) {
+                            stripe.redirectToCheckout({ sessionId: session.id });
+                        } else {
+                            alert('Erreur lors de la création de la session Stripe.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        </script>
+    </div>
 </div>
+
 {% endif %}
+
 {% endblock %}
