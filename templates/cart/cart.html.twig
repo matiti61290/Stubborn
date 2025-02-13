@@ -40,6 +40,10 @@
                         <h5>Taille</h5>
                         <p>{{ item.size }}<p>
                     </div>
+                    <div>
+                        <h5>Quantite</h5>
+                        <p>{{ item.quantity }}</p>
+                    </div>
                 </div>
                 <a href="{{ path('cart_remove', {'id': item.product.id, 'size': item.size}) }}" class="btn btn-danger fs-5 align-self-end" style="width: 15rem">Retirer du panier</a>
             </div>

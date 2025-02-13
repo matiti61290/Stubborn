@@ -41,6 +41,8 @@ class CartController extends AbstractController
         $cart = $cartService->getCart();
         $cartWithDetails = [];
 
+        dump($cart);
+
 
         foreach ($cart as $item) {
             $product = $productRepository->find($item['productId']);
@@ -52,6 +54,8 @@ class CartController extends AbstractController
                 ];
             }
         }
+
+        dump($cartWithDetails);
 
         $totalPrice = $cartService->getTotalPrice();
 
