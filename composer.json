@@ -90,6 +90,13 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "start-with-tests": [
+            "Composer\\Config::disableProcessTimeout",
+            "vendor/bin/phpunit",
+            "symfony server:start",
+            "sleep 2",
+            "echo 'Serveur actif à cette adresse : http://127.0.0.1:8000'"
         ]
     },
     "conflict": {
@@ -103,7 +110,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^4.0",
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "9.6",
         "symfony/browser-kit": "7.2.*",
         "symfony/css-selector": "7.2.*",
         "symfony/debug-bundle": "7.2.*",
