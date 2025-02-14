@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
     {% for flash_error in app.flashes('verify_email_error') %}
@@ -28,13 +28,13 @@
 
                 <button type="submit" class="btn btn-info fw-bold text-white mt-3"
                     style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .20rem; --bs-btn-font-size: 1.25rem;">
-                    Creer un compte</button>
+                    Créer un compte</button>
                 {{ form_end(registrationForm) }}
             </div>
         </div>
         <hr style="width: 90%" class="mx-auto border border-info"/>
         <div class="d-flex flex-column justify-content-start align-items-baseline ps-2 mb-3">
-            <p class="fs-5 mb-0">Deja inscrit?</p>
+            <p class="fs-5 mb-0">Déjà inscrit?</p>
             <a class="btn btn-info fw-bold text-white" href="{{ path('app_login') }}"
             style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .20rem; --bs-btn-font-size: 1.25rem;">
             Se Connecter</a>
