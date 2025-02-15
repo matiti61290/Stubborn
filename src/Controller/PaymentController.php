@@ -34,6 +34,7 @@ final class PaymentController extends AbstractController
         $cancelUrl = $this->urlGenerator->generate('checkout_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL);
         $cart = $cartService->getCart();
 
+        //retrieve products in the cart
         foreach ($cart as $item) {
             $product = $productRepository->find($item['productId']);
             if($product) {
@@ -45,23 +46,24 @@ final class PaymentController extends AbstractController
             }
         }
 
-        // Configuration de Stripe
+        // Stripe config
         Stripe::setApiKey($stripeSecretKey);
 
+        //Payment session creation try
         try {
             $session = Session::create([
                 'payment_method_types' => ['card'],
                 'line_items' => array_map(function ($cartItem) {
-                    $product = $cartItem['product']; // $product est une instance de Product
+                    $product = $cartItem['product']; 
                     return [
                         'price_data' => [
                             'currency' => 'eur',
                             'product_data' => [
-                                'name' => $product->getName(), // Utilise le getter pour accéder au nom
+                                'name' => $product->getName(), 
                             ],
-                            'unit_amount' => $product->getPrice() * 100, // Prix en centimes
+                            'unit_amount' => $product->getPrice() * 100, //to convert centime in euro
                         ],
-                        'quantity' => $cartItem['quantity'], // Quantité
+                        'quantity' => $cartItem['quantity'], 
                     ];
                 }, $cartWithDetails),
                 'mode' => 'payment',
@@ -70,7 +72,6 @@ final class PaymentController extends AbstractController
             ]);
             $cartService->clearCart();
 
-            // Retourner la session ID pour le frontend
             return new JsonResponse(['id' => $session->id]);
         } catch (\Exception $e) {
             return new JsonResponse(['error' => $e->getMessage()], 500);

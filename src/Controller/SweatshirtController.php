@@ -17,9 +17,11 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class SweatshirtController extends AbstractController
 {
+    //display each product in the database and the creation form
     #[Route('/admin', name: 'admin')]
     public function list(EntityManagerInterface $em, Request $request, SluggerInterface $slugger): Response
     {
+        //retrieve products from the database
         $products = $em->getRepository(Product::class)->findAll();
     
         $newProduct = new Product();
@@ -30,7 +32,8 @@ class SweatshirtController extends AbstractController
             $stock->setSize($size);
             $newProduct->addStock($stock);
         }
-    
+        
+        //Form logic
         $createForm = $this->createForm(SweatshirtType::class, $newProduct, [
             'is_edit' => false,
         ]);
@@ -80,6 +83,7 @@ class SweatshirtController extends AbstractController
     #[Route('/admin/sweatshirt/{id}/edit', name: 'sweatshirt_edit')]
     public function edit(Product $product, Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
+        //Edit form logic
         $form = $this->createForm(SweatshirtType::class, $product, [
             'is_edit' => true,
         ]);
@@ -116,7 +120,7 @@ class SweatshirtController extends AbstractController
     #[Route('/admin/sweatshirt/{id}/delete', name: 'sweatshirt_delete', methods: ['POST'])]
     public function delete(Product $product, EntityManagerInterface $em, Request $request): Response
     {
-    
+        //delete a product in the database
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
             $filesystem = new Filesystem();
     

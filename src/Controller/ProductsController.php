@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class ProductsController extends AbstractController
 {
+
+    //show all products in the database
     #[Route('/sweatshirts', name: 'products')]
     public function productsAll(ProductRepository $productRepository): Response
     {
@@ -25,6 +27,7 @@ final class ProductsController extends AbstractController
         ]);
     }
 
+    //show filtered product in the database
     #[Route('/sweatshirts', name:'products')]
     public function filterProducts(ProductRepository $productRepository, Request $request)
     {
@@ -36,6 +39,7 @@ final class ProductsController extends AbstractController
         ]);
     }
 
+    //redirect and show details about a product
     #[Route('/sweatshirts/{id}', name:'product_detail')]
     public function productDetails(?Product $product, EntityManagerInterface $em): Response
     {

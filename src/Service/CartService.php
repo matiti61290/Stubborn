@@ -16,6 +16,7 @@ class CartService
         $this->productRepository = $productRepository;
     }
 
+    //Calcul the total price of the cart
     public function getTotalPrice(): float
     {
         $cart = $this->session->get('cart', []);
@@ -32,6 +33,7 @@ class CartService
         return $total;
     }
 
+    //Add a product in the cart
     public function addProduct(int $productId, string $size): void
     {
         $cart = $this->session->get('cart', []);
@@ -51,11 +53,13 @@ class CartService
         $this->session->set('cart', $cart);
     }
 
+    //get products in the cart session
     public function getCart(): array
     {
         return $this->session->get('cart', []);
     }
 
+    //remove product in the cart session
     public function removeProduct(int $productId, string $size): void
     {
         $cart = $this->session->get('cart', []);
@@ -68,6 +72,7 @@ class CartService
         $this->session->set('cart', $cart);
     }
 
+    //clear the cart
     public function clearCart(): void
     {
         $this->session->remove('cart');
