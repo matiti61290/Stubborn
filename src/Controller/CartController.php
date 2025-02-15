@@ -20,6 +20,7 @@ class CartController extends AbstractController
         $this->parameterBag = $parameterBag;
     }
 
+    //add a product in the cart with the id
     #[Route('/add/{id}', name: 'add')]
     public function add(int $id, Request $request, ProductRepository $productRepository, CartService $cartService): Response
     {
@@ -34,15 +35,13 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart_show');
     }
 
+    //render each product in the cart
     #[Route('/', name:'show')]
     public function show(CartService $cartService, ProductRepository $productRepository): Response
     {
         $stripePublicKey = $this->parameterBag->get('env(STRIPE_PUBLIC_KEY)');
         $cart = $cartService->getCart();
         $cartWithDetails = [];
-
-        dump($cart);
-
 
         foreach ($cart as $item) {
             $product = $productRepository->find($item['productId']);
@@ -55,8 +54,6 @@ class CartController extends AbstractController
             }
         }
 
-        dump($cartWithDetails);
-
         $totalPrice = $cartService->getTotalPrice();
 
         return $this->render('cart/cart.html.twig', [
@@ -66,7 +63,7 @@ class CartController extends AbstractController
         ]);
     }
 
-
+    //delete a product in the cart
     #[Route('/remove/{id}/{size}', name: 'remove')]
     public function remove(int $id, string $size, CartService $cartService): Response
     {

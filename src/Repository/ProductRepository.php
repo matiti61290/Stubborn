@@ -16,15 +16,17 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    //Query to find highlighted products
     public function findAllHighlightedProducts(): array
     {
         return $this->createQueryBuilder('p')
             ->where('p.highlighted = :highlighted')
-            ->setParameter('highlighted', true) // true au lieu de 1 pour plus de clarté
+            ->setParameter('highlighted', true)
             ->getQuery()
             ->getResult();
     }
 
+    //Query to get all product
     public function findAllProducts(): array
     {
         return $this->createQueryBuilder('p')
@@ -32,6 +34,7 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    //Query to find product by price interval
     public function findByPriceInterval(?string $priceRange): array
     {
         $qb = $this->createQueryBuilder('p');
